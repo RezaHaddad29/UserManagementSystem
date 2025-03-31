@@ -38,6 +38,7 @@ ScaffoldingReadMe.txt
 
 # User secrets (برای جلوگیری از ارسال اطلاعات حساس به Git)
 appsettings.Development.json
+appsettings.json
 appsettings.Production.json
 appsettings.Staging.json
 
