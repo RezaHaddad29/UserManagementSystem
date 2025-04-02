@@ -1,11 +1,12 @@
 ﻿using UserManagement.Application.DTOs;
 using UserManagement.Domain.Entities;
+using static UserManagement.Application.DTOs.UserDTOs;
 
 namespace UserManagement.Application.Interfaces
 {
     public interface IUserRepository
     {
-        Task<List<User>> GetUsersAsync();
+        Task<List<UserDto>> GetUsersAsync();
         Task<User> GetUserByIdAsync(int id);
         Task<User> GetUserByEmailAsync(string email);
         Task CreateUserAsync(User user);

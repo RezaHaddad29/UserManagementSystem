@@ -10,7 +10,9 @@ namespace UserManagement.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<List<User>> GetUsers();
+        Task<List<UserDto>> GetUsers();
         Task<bool> UpdateUserRoleAsync(UpdateUserRoleRequest request);
+        Task<bool> UpdateUserAsync(int userId, UpdateUserRequest request);
+        Task<bool> DeleteUserAsync(int userId);
     }
 }

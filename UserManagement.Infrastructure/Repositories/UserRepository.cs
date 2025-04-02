@@ -3,13 +3,13 @@ using UserManagement.Application.DTOs;
 using UserManagement.Application.Interfaces;
 using UserManagement.Domain.Entities;
 using UserManagement.Infrastructure.Data;
+using static UserManagement.Application.DTOs.UserDTOs;
 
 namespace UserManagement.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
-
         public UserRepository(ApplicationDbContext applicationDbContext)
         {
             _context = applicationDbContext;
@@ -22,13 +22,25 @@ namespace UserManagement.Infrastructure.Repositories
 
         public async Task UpdateUserAsync(User user)
         {
+            // Update بدون SaveChangesAsync؛ SaveChangesAsync توسط سرویس فراخوانی می‌شود.
             _context.Users.Update(user);
         }
 
-        public async Task<List<User>> GetUsersAsync()
+        public async Task<List<UserDto>> GetUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            // استفاده از AsNoTracking برای بهبود عملکرد خواندن
+            return await _context.Users
+                .AsNoTracking()
+                .Select(user => new UserDto(
+                    user.Id,
+                    user.FirstName,
+                    user.LastName,
+                    user.Email,
+                    user.IsActive
+                ))
+                .ToListAsync();
         }
+
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
@@ -36,6 +48,7 @@ namespace UserManagement.Infrastructure.Repositories
 
         public async Task<User> GetUserByIdAsync(int id)
         {
+            // استفاده از FindAsync اگر کلید اصلی باشد
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
