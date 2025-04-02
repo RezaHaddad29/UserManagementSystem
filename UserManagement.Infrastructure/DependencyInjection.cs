@@ -22,8 +22,9 @@ namespace UserManagement.Infrastructure
 
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IAuthService, AuthService>(); // اضافه کردن سرویس
-
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICookieService, CookieService>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }
